@@ -4,7 +4,7 @@
   "theme_color": "#1a2a32",
   "background_color": "#1a2a32",
   "display": "fullscreen",
-  "Scope": "./",
+  "Scope": "https://htmlpreview.github.io/?https://github.com/Spishous/tic-tac-toe/main/pwa/index.html",
   "orientation": "portrait",
   "icons": [
     {
@@ -23,5 +23,5 @@
       "sizes": "192x192"
     }
   ],
-  "start_url": "./?utm_source=homescreen"
+  "start_url": "https://htmlpreview.github.io/?https://github.com/Spishous/tic-tac-toe/main/pwa/index.html"
 }
