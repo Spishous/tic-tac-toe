@@ -5,6 +5,8 @@ Jeu développé en vueJS.
 ## Demo
 https://htmlpreview.github.io/?https://github.com/Spishous/tic-tac-toe/main/index.html
 
+## Description
+
 2 Mode de jeu:
 - Multijoueur
 - Contre l'ordinateur
