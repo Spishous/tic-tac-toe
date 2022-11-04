@@ -4,24 +4,24 @@
   "theme_color": "#1a2a32",
   "background_color": "#1a2a32",
   "display": "fullscreen",
-  "Scope": "/",
+  "Scope": "./",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/Spishous/tic-tac-toe/main/pwa/AppIcon48x48.png",
+      "src": "./AppIcon48x48.png",
       "type": "image/png",
       "sizes": "48x48"
     },
     {
-      "src": "/Spishous/tic-tac-toe/main/pwa/AppIcon96x96.png",
+      "src": "./AppIcon96x96.png",
       "type": "image/png",
       "sizes": "96x96"
     },
     {
-      "src": "/Spishous/tic-tac-toe/main/pwa/AppIcon192x192.png",
+      "src": "./AppIcon192x192.png",
       "type": "image/png",
       "sizes": "192x192"
     }
   ],
-  "start_url": "/?utm_source=homescreen"
+  "start_url": "./?utm_source=homescreen"
 }
