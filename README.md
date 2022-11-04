@@ -3,7 +3,7 @@
 Jeu développé en vueJS.
 
 ## Demo
-https://htmlpreview.github.io/?https://github.com/Spishous/tic-tac-toe/main/index.html
+https://htmlpreview.github.io/?https://github.com/Spishous/tic-tac-toe/main/pwa/index.html
 
 ## Description
 
