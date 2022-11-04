@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Tic Tac Toe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Karla:wght@300;500&display=swap" rel="stylesheet">
+    <script src="./js/neutralino.js"></script>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <main id="app">
+        <div v-if="menu" id="menu">
+            <span class="logo"><img src="./xmark.svg"><img src="./circle.svg"></span>
+            <div id="choose-mark">
+                <label>Choissisez le marqueur du joueur 1</label>
+                <div id="markSelector" :class="(mark)?'sel-x':'sel-o'">
+                    <span class="mark-x" @click="setMark(1)">X</span>
+                    <span class="mark-o" @click="setMark(0)">O</span>
+                </div>
+                <span class="tips">Rappel: X commence en premier</span>
+            </div>
+            <div class="btn-line btn-clr-o" @click="selectMod(0)">
+                New game (vs cpu)
+            </div>
+            <div class="btn-line btn-clr-x" @click="selectMod(1)">
+                New game (vs player)
+            </div>
+        </div>
+        <table v-else :class="['turn-'+turnMark,((isWin)?'win':'playing'),traceWin]">
+            <tbody>
+            <tr class="info-content">
+                <td class="info-mark">
+                    <span  @click="showMenu(true)" class="btn-cursor"><img src="./xmark.svg"><img src="./circle.svg"></span>
+                </td>
+                <td class="turn-info">
+                    <span>{{(turnMark)?'X':'O'}}</span><label>TURN</label>
+                </td>
+                <td class="restart-info">
+                    <button @click="resetGrid()"><img src="./rotate-left.svg"></button>
+                </td>
+            </tr>
+            <tr v-for="(row,key) in grids" :key="key" :id="'r-'+key" class="grid">
+                <td v-for="(value,index) in row" :key="index" :class="['c-'+index,(value!==' ')?'mark-'+value:'mark-empty']"
+                @click="addMark(key,index,value)">{{value}}</td>
+            </tr>
+            <tr class="score-content">
+                <td :class="['score-card score-you',mark?'clr-x':'clr-o']">
+                    <label>{{mark?"X":"O"}} (YOU)</label><span>{{score["1"]}}</span>
+                </td>
+                <td class="score-card score-ties">
+                    <label>TIES</label><span>{{score["nul"]}}</span>
+                </td>
+                <td :class="['score-card score-cpu',(!mark)?'clr-x':'clr-o']">
+                    <label>{{mark?"O":"X"}} ({{listMod[mod]}})</label><span>{{score["0"]}}</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </main>
+    <footer>
+        Rayan LUCAS
+    </footer>
+    <script>
+        Neutralino.init();
+        let vue = new Vue({
+            el:"#app",
+            data(){
+                return {
+                    listMod:{
+                        0:"cpu",
+                        1:"player"
+                    },
+                    mod:0,
+                    grids:{
+                        0:"   ",
+                        1:"   ",
+                        2:"   "
+                    },
+                    score:{
+                        "0":0,
+                        "1":0,
+                        "nul":0
+                    },
+                    count:0,
+                    turnMark:0,
+                    traceWin:"",
+                    mark:1,
+                    menu:true,
+                }
+            },
+            computed:{
+                endGame(){
+                    if(this.count>=9){
+                        this.resetGrid();
+                    }
+                    return this.count+1;
+                },
+                isWin(){
+                    return this.checkWin()!==-1;
+                }
+            },
+            methods:{
+                selectMod(mod){
+                    this.mod=mod;
+                    this.showMenu(false);
+                },
+                showMenu(bool){
+                    this.menu=bool
+                    this.resetGrid();
+                    this.score={"0":0, "1":0,"nul":0}
+                },
+                setMark(bool){
+                    this.mark=(bool)?1:0;
+                },
+                resetGrid(){
+                    this.grids={
+                        0:"   ",
+                        1:"   ",
+                        2:"   "}
+                    this.count=0
+                    this.turnMark=1;
+                    this.traceWin="";
+                    document.body.classList.remove("cpu-playing")
+                    if(this.mod===0){
+                        document.body.classList.add("cpu-playing")
+                        let that=this;
+                        that.cpuPlay();
+                    }
+                },
+                addMark(key,index,currentValue){
+                    if(this.count===9)this.count=this.count+1;
+                    if(currentValue!=="1" && currentValue!=="0" && this.checkWin()===-1){
+                        this.count=this.count+1;
+                        let value=this.grids[key];
+                        value=value.substring(0, index) + this.turnMark + value.substring(index+1);
+                        this.turnMark=(this.count-1)%2
+                        this.grids[key]=value;
+                    }else{
+                        if(this.checkWin()!==-1 && this.winner!==-1){
+                            this.resetGrid()
+                            return;
+                        }
+                    }
+                    if(this.checkWin()!==-1){
+                        let winner =Math.abs(this.checkWin()-Math.abs(this.mark-1));
+                        this.score[winner]++;
+                        return;
+                    }
+                    if(this.checkWin()===-1&&this.count===9){
+                        this.score["nul"]++;
+                        return;
+                    }
+                    if(this.count>9) this.resetGrid();
+                    if(this.mod===0){
+                        document.body.classList.add("cpu-playing")
+                        let that=this;
+                        setTimeout(()=>{
+                            that.cpuPlay();
+                        },200)
+                    }
+                },
+                setTraceWin(x,y){
+                    this.traceWin="trace-"+x+"-"+y
+                },
+                cpuPlay(){
+                    if(this.mod===0){
+                        if(this.turnMark!==this.mark){
+                            console.log("playing")
+                            let criticalHit=this.cpuCriticalHit(),
+                                x=-1,
+                                y=-1;
+                            if(criticalHit!==false){
+                                x=criticalHit[0];
+                                y=criticalHit[1];
+                                console.log("critical",x,y)
+                            }else{
+                                x=Math.round(Math.random()*2);
+                                y=Math.round(Math.random()*2);
+                                while(this.grids[x][y]!==" "){
+                                    x=Math.round(Math.random()*2);
+                                    y=Math.round(Math.random()*2);
+                                }
+                                console.log("normal",x,y)
+                            }
+                            this.count=this.count+1;
+                            let value=this.grids[x];
+                            value=value.substring(0, y) + this.turnMark + value.substring(y+1);
+                            this.grids[x]=value;
+                            this.turnMark=(this.count-1)%2
+                            document.body.classList.remove("cpu-playing")
+                            if(this.checkWin()!==-1){
+                                let winner =Math.abs(this.checkWin()-Math.abs(this.mark-1));
+                                this.score[winner]++;
+                            }
+                            return;
+                        }
+                    }
+                    document.body.classList.remove("cpu-playing")
+                },
+                cpuCriticalHit(){
+                    let combo="",
+                        criticalIndex=-1;
+                    let j=0,
+                        result=[];
+                    for(let i=0;i<=2;i++) {
+                        combo="";
+                        for (j = 0; j <= 2; j++) {combo+=this.grids[i][j];}
+                        criticalIndex=this.isCriticalHit(combo)
+                        if(criticalIndex[0]!==-1) result.push([[i,criticalIndex[0]],[criticalIndex[1]]]);
+
+                        combo="";
+                        for (j = 0; j <= 2; j++) {combo+=this.grids[j][i];}
+                        criticalIndex=this.isCriticalHit(combo)
+                        if(criticalIndex[0]!==-1) result.push([[criticalIndex[0],i],[criticalIndex[1]]])
+                    }
+                    combo=this.grids[0][0]+this.grids[1][1]+this.grids[2][2];
+                    criticalIndex=this.isCriticalHit(combo)
+                    if(criticalIndex[0]!==-1) result.push([[[0,0],[1,1],[2,2]][criticalIndex[0]],[criticalIndex[1]]])
+
+                    combo=this.grids[0][2]+this.grids[1][1]+this.grids[2][0];
+                    criticalIndex=this.isCriticalHit(combo)
+                    if(criticalIndex[0]!==-1) result.push([[[0,2],[1,1],[2,0]][criticalIndex[0]],[criticalIndex[1]]])
+
+                    if(result.length>0){
+                        for(let i=0;i<result.length;i++){
+                            if(result[i][1]===this.turnMark){
+                                return result[i][0]
+                            }
+                        }
+                        return result[0][0];
+                    }else{
+                        return false;
+                    }
+                },
+                isCriticalHit(combo){
+                    let listHit=[" 11","1 1","11 "," 00","0 0","00 "]
+                    return [listHit.indexOf(combo)%3,(listHit.indexOf(combo)>3)?0:1];
+                },
+                checkWin(){
+                    if(this.count>=5){
+                        if(this.grids[0][0]!==" "&&this.grids[0][0]===this.grids[1][1] && this.grids[0][0]===this.grids[2][2]){
+                            this.setTraceWin(-1,0)
+                            return this.grids[0][0];
+                        }
+                        if(this.grids[0][2]!==" "&&this.grids[0][2]===this.grids[1][1] && this.grids[0][2]===this.grids[2][0]){
+                            this.setTraceWin(0,-1)
+                            return this.grids[0][2];
+                        }
+                        for(let i=0;i<=2;i++){
+                            if(this.grids[i][0]!==" "&&this.grids[i][0]===this.grids[i][1] && this.grids[i][0]===this.grids[i][2]){
+                                this.setTraceWin(i+1,0)
+                                return this.grids[i][0];
+                            }
+                            if(this.grids[0][i]!==" "&&this.grids[0][i]===this.grids[1][i] && this.grids[0][i]===this.grids[2][i]){
+                                this.setTraceWin(0,i+1)
+                                return this.grids[0][i];
+                            }
+                        }
+                    }
+                    return -1;
+                }
+            },mounted(){
+                Neutralino.window.show();
+            }
+        });
+    </script>
+</body>
+</html>

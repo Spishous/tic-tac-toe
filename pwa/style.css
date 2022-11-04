@@ -1,0 +1,66 @@
+:root {--primaryBg:#1a2a32;--secondaryBg:#253a42;--primaryClr:#37c4be;--secondaryClr:#f0b345;--neutral:#a9bec8}
+html {height:100%}
+body {display:flex;justify-content:center;align-items:center;min-height:100%;margin:0;background:var(--primaryBg);font-family:'Karla', sans-serif;text-transform:uppercase;color:var(--neutral);position:relative}
+table {border-collapse:separate;text-align:center;font-size:2.8rem;border-spacing:8px 14px;height:fit-content}
+table tr:nth-child(n+2) {
+    border-top-width:0.1em}
+td {background:var(--secondaryBg);border-radius:0.6rem;width:2em;height:2em;box-shadow: 0px 5px 0px rgb(0 0 0 / 44%);}
+table * {border-color:transparent;border-style:solid;border-width:0}
+.score-card * {display:block;font-size:1.1rem}
+.score-card span {display:block}
+td.score-card {height:auto;color:var(--primaryBg);padding:0.15em 0}
+td.score-card label {font-size:0.7rem;margin-bottom:0.2em}
+td.score-card span {font-weight:bold}
+.score-ties {background-color:var(--neutral)}
+.clr-x {background-color:var(--primaryClr)}
+.clr-o {background-color:var(--secondaryClr)}
+td.restart-info,.info-mark {background:transparent;box-shadow:none}
+button {background-color:var(--neutral)}
+tr.info-content tr {height:30px;max-height:30px}
+tr.info-content td {height:0.8em}
+td.turn-info {}
+td.turn-info {font-size:0.8rem}
+td.restart-info button {display:flex;height:0.8em;width:0.8em;margin-left:auto;font-size:1em;align-items:center;justify-content:center;border-radius:0.6rem;box-shadow:0px 3px 0px rgb(105 116 121)}
+td.restart-info img {width:0.4em}
+tr.score-content td {box-shadow:none}
+label, img {pointer-events:none}
+tr.grid td {color:transparent}
+td.mark-1,td.mark-0 {background-image:url('./xmark.svg');background-size:auto 70%;background-position:center;background-repeat:no-repeat}
+td.mark-0 {background-image:url(./circle.svg)}
+table.playing .mark-empty:hover {background-image:url('./xmark-h.svg');background-size:auto 70%;background-position:center;background-repeat:no-repeat;background-color:#1d3038}
+table.playing.turn-0 .mark-empty:hover {background-image:url(./circle-h.svg)}
+tr.grid td {cursor:pointer;position:relative}
+.trace-1-0 #r-0 .c-1:before,.trace-2-0 #r-1 .c-1:before,.trace-3-0 #r-2 .c-1:before,.trace-0-1 #r-1 .c-0:before,.trace-0-2 #r-1 .c-1:before,.trace-0-3 #r-1 .c-2:before,.trace--1-0 #r-1 .c-1:before,.trace-0--1 #r-1 .c-1:before {content:"";background:#0f181c;height:6px;width:300%;position:absolute;display:block;top:50%;z-index:2;left:50%;transform:translate(-50%,-50%);border-radius:10px;animation:trace-100 500ms forwards}
+.trace-0-1 #r-1 .c-0:before,.trace-0-2 #r-1 .c-1:before,.trace-0-3 #r-1 .c-2:before {transform:translate(-50%,-50%) rotate(90deg)}
+.trace--1-0 #r-1 .c-1:before {transform:translate(-50%,-50%) rotate(47deg);animation:trace-125 500ms forwards}
+.trace-0--1 #r-1 .c-1:before {transform:translate(-50%,-50%) rotate(-47deg);animation:trace-125 500ms forwards}
+@keyframes trace-100 {
+    from {width:0%}
+    to {width:300%}
+}
+@keyframes trace-125 {
+    from {width:0%}
+    to {width:400%}
+}
+.turn-info {color:var(--neutral)}
+td.turn-info span {padding-right:0.6em}
+td.info-mark span {display:flex;height:70%;width:min-content}
+td.info-mark img{width:0.6em}
+.logo img {width:2em}
+#menu {text-align:center;width:400px;max-width:95%}
+#choose-mark {padding:1em;border-radius:0.6em;margin:1.5em auto;background:var(--secondaryBg);box-sizing:border-box;width:100%;box-shadow:0px 3px 2px rgba(0,0,0,0.44)}
+.tips {font-size:0.9em;display:block;opacity:0.4}
+#markSelector {margin:1.2em 0;background:var(--primaryBg);border-radius:0.6em;padding:5px;display:flex;position:relative;z-index:1}
+#markSelector span {flex:1;height:1.2em;font-size:2em;display:flex;align-items:center;justify-content:center;transition:color 500ms;cursor:pointer;font-weight:bold}
+#markSelector:before {content:"";background:var(--neutral);height:calc(100% - 10px);width:47%;left:5px;right:5px;position:absolute;z-index:-1;border-radius:0.4em;margin-left:0;transition:margin 500ms}
+#markSelector.sel-o:before {margin-left:50%}
+#markSelector.sel-o .mark-o,#markSelector.sel-x .mark-x {color:var(--secondaryBg)}
+main {display:contents}
+.btn-line {margin:1em 0;border-radius:0.6em;height:3em;display:flex;align-items:center;justify-content:center;color:var(--primaryBg);font-weight:bold;box-shadow:inset 0 -5px 0 rgba(0,0,0,0.30);cursor:pointer}
+.btn-clr-o {background:var(--secondaryClr)}
+.btn-clr-x {background:var(--primaryClr)}
+.btn-line:hover {opacity:0.8}
+.btn-cursor {cursor:pointer}
+.cpu-playing tr.grid {
+    pointer-events: none;
+}

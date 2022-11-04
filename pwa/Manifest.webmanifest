@@ -1,0 +1,27 @@
+{
+  "short_name": "TicTacToe",
+  "name": "TicTac",
+  "theme_color": "#1a2a32",
+  "background_color": "#1a2a32",
+  "display": "fullscreen",
+  "Scope": "/",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/AppIcon48x48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "/AppIcon96x96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "/AppIcon192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": "/?utm_source=homescreen"
+}
