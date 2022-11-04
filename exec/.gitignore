@@ -3,7 +3,6 @@
 
 # Neutralinojs binaries and builds
 /bin
-/dist
 
 # Neutralinojs client (minified)
 neutralino.js
